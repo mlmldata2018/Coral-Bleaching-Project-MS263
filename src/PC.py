@@ -35,6 +35,7 @@ modelBleaching = pd.DataFrame(bleach_data['events80_2016'])
 modelBleaching.rename(columns={0: 'Events'}, inplace=True)
 # Be we really want this in the cells dataframe
 #cells['Events'] = modelBleaching['Events']
+cells['Rand'] = np.random.uniform(low=-10, high=10, size=len(modelBleaching))
 print(cells.head())
 
 # Now get 1861-1950 SST mean and variance for each reef
