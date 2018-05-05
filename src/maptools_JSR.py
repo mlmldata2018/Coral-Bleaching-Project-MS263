@@ -25,7 +25,7 @@ def make_coral_map(projection=ccrs.Miller(central_longitude=180),
 
     Based on
     http://scitools.org.uk/cartopy/docs/v0.15/examples/tick_labels.html
-    License: Open Government License, 
+    License: Open Government License,
     https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/
 
     Example code:
@@ -41,18 +41,22 @@ def make_coral_map(projection=ccrs.Miller(central_longitude=180),
 
     ax.set_xticks(xticks, crs=ccrs.PlateCarree())
     ax.set_yticks(yticks, crs=ccrs.PlateCarree())
-    
+
     lon_formatter = LongitudeFormatter(zero_direction_label=True)
     lat_formatter = LatitudeFormatter()
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.yaxis.set_major_formatter(lat_formatter)
     ax.coastlines()
+    plt.ylabel('Latitude')
+    plt.xlabel('Longitude')
+    plt.ylim([-40, 40])
 
     # Reefs are most abundant in the western pacific and between +- 30 latitude.
     # It is important to specify the crs argument to set_extent, or the extent
-    # may be partially ignored. 
+    # may be partially ignored.
     # The more important thing seems to be to call this AFTER the other actions
     # on the axis.
     print('In function, extent = ', extent)
     ax.set_extent(extent, crs=ccrs.PlateCarree())
+
     return ax
