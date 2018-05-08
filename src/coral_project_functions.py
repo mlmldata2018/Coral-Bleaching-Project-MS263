@@ -85,22 +85,8 @@ def bleach_scatter(df, set_name):
              'r', label='fitted line')
     print("r-squared:", r_value**2)
 
-def bleach_annual_plot(branching_bleach, massive_bleach, hughes,
-                       c_idx=None, h_idx=None):
+def bleach_annual_plot(bb, mb, hb, title, cumulative=False):
     # The annual bleaching count for the whole world, based on Logan et al. (2018)
-
-
-    if c_idx is None:
-        # c_idx = np.ones(len(branching_bleach[:, 0]), dtype=int)
-        bb = branching_bleach
-        mb = massive_bleach
-    else:
-        bb = branching_bleach[c_idx]
-        mb = massive_bleach[c_idx]
-    if h_idx is None:
-        hb = hughes
-    else:
-        hb = hughes.iloc(h_idx)
 
     cell_annual = np.sum(mb | bb, 0)
 
@@ -111,22 +97,49 @@ def bleach_annual_plot(branching_bleach, massive_bleach, hughes,
 
     hughes_annual = np.int32(hughes_annual)
 
-    hughes_norm = np.mean(hughes_annual)*hughes_annual/sum(hughes_annual)
-    cell_norm = np.mean(hughes_annual)*cell_annual/sum(cell_annual)
+    if cumulative:
+        hughes_annual = cumulativesum(hughes_annual)
+        cell_annual = cumulativesum(cell_annual)
+        hughes_norm = hughes_annual
+        cell_norm = hughes_annual[-1]*cell_annual/cell_annual[-1]
+    else:
+        hughes_norm = np.mean(hughes_annual)*hughes_annual/sum(hughes_annual)
+        cell_norm = np.mean(hughes_annual)*cell_annual/sum(cell_annual)
 
     # Plot global cumulative total by year for both approaches.
-    plt.figure()
+    #plt.figure()
     plt.plot(range(1980, 2017), hughes_norm, label='Hughes')
     plt.plot(range(1980, 2017), cell_norm, label='Logan')
     plt.xlabel('Year')
     plt.ylabel('Normalized bleaching count')
     plt.legend()
-    plt.figure()
+    plt.title(title)
 
-    shiftYear = -1.5
-    plt.plot(range(1980, 2017), hughes_norm, label='Hughes')
-    plt.plot(shiftYear+np.array(range(1980, 2017)), cell_norm, label='Logan')
-    plt.legend()
+    #plt.figure()
+    #shiftYear = -1.5
+    #plt.plot(range(1980, 2017), hughes_norm, label='Hughes')
+    #plt.plot(shiftYear+np.array(range(1980, 2017)), cell_norm, label='Logan')
+    #plt.legend()
+
+def cumulativesum(data):
+    '''Return the seqential sums of values in the argument.
+
+       Accepts an array or list and returns a numpy.array of
+       the same length and data type.  The nth value in the
+       output array is the sum of the first n values in the input.
+    '''
+
+    # Initialize the output to zeros, which should be faster
+    # than append.  'zeros_like' attempts to match the data type.
+    cum_array = np.zeros_like(data)
+    cumsum = 0
+    # Go through all the input values, using their index i to
+    # place the cumulative sum into the output array.
+    for i, val in enumerate(data):
+        cumsum = cumsum + val
+        cum_array[i] = cumsum
+
+    return cum_array
 
 
 if __name__ == '__main__':
@@ -137,7 +150,6 @@ if __name__ == '__main__':
         columns=range(1980, 2017))
 
 
-    number to S
 
 
     bleach_annual_plot(np.random.randint(0, high=10, size=(1925, 37)),
