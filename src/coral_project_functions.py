@@ -76,7 +76,7 @@ def bleach_scatter(df, set_name):
     plt.plot(df['Severe count'], df['cell_bleach'], 'o')
     plt.xlabel('Bleaching Counted by Hughes et al.')
     plt.ylabel('Average Bleaching in Adjacent Logan et al. Cells')
-    plt.title('Logan et al. vs. Hughes et al. Bleaching events' + set_name)
+    plt.title('Logan et al. vs. Hughes et al. Bleaching events ' + set_name)
 
     # Straight from the scipy docs...
     slope, intercept, r_value, p_value, std_err = stats.linregress(
