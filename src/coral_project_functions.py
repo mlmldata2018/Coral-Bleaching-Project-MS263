@@ -57,7 +57,6 @@ def make_coral_map(projection=ccrs.Miller(central_longitude=180),
     # may be partially ignored.
     # The more important thing seems to be to call this AFTER the other actions
     # on the axis.
-    print('In function, extent = ', extent)
     ax.set_extent(extent, crs=ccrs.PlateCarree())
 
     return ax
@@ -72,18 +71,20 @@ def bleach_scatter(df, set_name):
            set_name: a name appended to the plot title
     Output: none
     """
-    plt.figure()
+    # Don't call figure() here, so outside code can display this as a figure
+    # or in subplots.
+    #plt.figure()
     plt.plot(df['Severe count'], df['cell_bleach'], 'o')
-    plt.xlabel('Bleaching Counted by Hughes et al.')
-    plt.ylabel('Average Bleaching in Adjacent Logan et al. Cells')
-    plt.title('Logan et al. vs. Hughes et al. Bleaching events ' + set_name)
+    plt.xlabel('Hughes Bleaching')
+    plt.ylabel('Logan Bleaching')
+    plt.title('Bleaching events, ' + set_name)
 
     # Straight from the scipy docs...
     slope, intercept, r_value, p_value, std_err = stats.linregress(
             df['Severe count'], df['cell_bleach'])
     plt.plot(df['Severe count'], intercept + slope*df['Severe count'],
              'r', label='fitted line')
-    print("r-squared:", r_value**2)
+    print(set_name, "r-squared:", r_value**2)
 
 def bleach_annual_plot(bb, mb, hb, title, cumulative=False):
     # The annual bleaching count for the whole world, based on Logan et al. (2018)
