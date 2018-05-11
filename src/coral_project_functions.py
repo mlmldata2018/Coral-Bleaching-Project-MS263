@@ -8,6 +8,7 @@ import cartopy.crs as ccrs
 from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 from scipy import stats
 import numpy as np
+import math
 
 
 def make_coral_map(projection=ccrs.Miller(central_longitude=180),
@@ -85,6 +86,26 @@ def bleach_scatter(df, set_name):
     plt.plot(df['Severe count'], intercept + slope*df['Severe count'],
              'r', label='fitted line')
     print(set_name, "r-squared:", r_value**2)
+
+
+def scatter_all(df, marker_size=1):
+    names = list(df)
+    var_count = len(names)
+    # there a "n choose 2" plots
+    p_count = math.factorial(var_count)/2/math.factorial(var_count-2)
+    rows = np.ceil(p_count/2)
+    print('Plotting', var_count, 'variables in', p_count, 'plots and', rows, 'rows.')
+    print('There are', len(df), 'rows of data.')
+    count = 1;
+    for i, namex in enumerate(names):
+        for j, namey in enumerate(names[i+1:]):
+            plt.subplot(rows, 2, count)
+            plt.scatter(df[namex], df[namey], marker='.', s=marker_size)
+            plt.xlabel(namex)
+            plt.ylabel(namey)
+            count = count + 1
+    plt.subplots_adjust(hspace=1.2, wspace=0.3)
+
 
 def bleach_annual_plot(bb, mb, hb, title, cumulative=False):
     # The annual bleaching count for the whole world, based on Logan et al. (2018)
