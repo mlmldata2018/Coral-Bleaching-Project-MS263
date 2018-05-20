@@ -1,3 +1,13 @@
+### Running the project
+The main notebook is Coral_Bleaching_Hughes_Logan_Comparison.ipynb . Start there to read the data files and see the most important results.
+
+The other two notebooks are supplemental.  There is already a subset of each in the main notebook.
+Reef_Scatterplots.ipynb has scatterplots of input variables and bleaching broken out for 4 regions of the world.
+Reef_Principal_Components.ipynb  has more variations on the principal components analysis.
+
+There are two python "*.py" files.  They contain functions used by the notebooks, and which are here to make the project free-standing, though they could have been in a separate tools repository.
+
+
 ### What I did
 
 1. Read in data from a paper by Mumby et al. (reference below).
