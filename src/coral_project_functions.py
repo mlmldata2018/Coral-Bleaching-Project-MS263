@@ -74,18 +74,19 @@ def bleach_scatter(df, set_name):
     """
     # Don't call figure() here, so outside code can display this as a figure
     # or in subplots.
-    #plt.figure()
     plt.plot(df['Severe count'], df['cell_bleach'], 'o')
-    plt.xlabel('Hughes Bleaching')
-    plt.ylabel('Logan Bleaching')
-    plt.title('Bleaching events, ' + set_name)
+    plt.xlabel('Hughes Bleaching', fontsize=14)
+    plt.ylabel('Logan Bleaching', fontsize=14)
+    plt.title('Bleaching events, ' + set_name, fontsize=14)
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
 
     # Straight from the scipy docs...
     slope, intercept, r_value, p_value, std_err = stats.linregress(
             df['Severe count'], df['cell_bleach'])
     plt.plot(df['Severe count'], intercept + slope*df['Severe count'],
              'r', label='fitted line')
-    print(set_name, "r-squared:", r_value**2)
+    print(set_name, "r-squared:", "{:.3f}".format(r_value**2))
 
 
 def scatter_all(df, marker_size=1):
@@ -94,19 +95,19 @@ def scatter_all(df, marker_size=1):
     # there a "n choose 2" plots
     p_count = math.factorial(var_count)/2/math.factorial(var_count-2)
     rows = np.ceil(p_count/2)
-    print('Plotting', var_count, 'variables in', p_count, 'plots and', rows, 'rows.')
+    print('Plotting', var_count, 'variables in', "{:.0f}".format(p_count), 'plots and', "{:.0f}".format(rows), 'rows.')
     print('There are', len(df), 'rows of data.')
     count = 1;
     for i, namex in enumerate(names):
         for j, namey in enumerate(names[i+1:]):
             plt.subplot(rows, 2, count)
             plt.scatter(df[namex], df[namey], marker='.', s=marker_size)
-            plt.xlabel(namex, fontsize=16)
+            plt.xlabel(namex, fontsize=15)
             plt.ylabel(namey, fontsize=16)
             plt.xticks(fontsize=12)
             plt.yticks(fontsize=12)
             count = count + 1
-    plt.subplots_adjust(hspace=1.3, wspace=0.4)
+    plt.subplots_adjust(hspace=1.4, wspace=0.4)
 
 
 def bleach_annual_plot(bb, mb, hb, title, cumulative=False):

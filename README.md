@@ -7,7 +7,9 @@ Reef_Principal_Components.ipynb  has more variations on the principal components
 
 There are two python "*.py" files.  They contain functions used by the notebooks, and are here to make the project free-standing.
 
-Dependencies are detailed in the main notebook.  This project was completed with jupyter notebook 5.5.0, python version 3.6.5, and the following libraries: cartopy 0.16.1, matplotlib 2.2.2, numpy 1.14.3, pandas 0.22.0, and scipy 1.1.0.  The source code and data repository is https://github.com/mlmldata2018/Coral-Bleaching-Project-MS263.
+This project was completed with jupyter notebook 5.5.0, python version 3.6.5, and the following libraries: cartopy 0.16.1, matplotlib 2.2.2, numpy 1.14.3, pandas 0.22.0, and scipy 1.1.0.  The source code and data repository is https://github.com/mlmldata2018/Coral-Bleaching-Project-MS263.
+
+Input data is stored in the data directory of the repository.
 
 ### The questions
 
