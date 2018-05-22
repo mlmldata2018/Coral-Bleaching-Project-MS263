@@ -101,10 +101,12 @@ def scatter_all(df, marker_size=1):
         for j, namey in enumerate(names[i+1:]):
             plt.subplot(rows, 2, count)
             plt.scatter(df[namex], df[namey], marker='.', s=marker_size)
-            plt.xlabel(namex)
-            plt.ylabel(namey)
+            plt.xlabel(namex, fontsize=16)
+            plt.ylabel(namey, fontsize=16)
+            plt.xticks(fontsize=12)
+            plt.yticks(fontsize=12)
             count = count + 1
-    plt.subplots_adjust(hspace=1.2, wspace=0.3)
+    plt.subplots_adjust(hspace=1.3, wspace=0.4)
 
 
 def bleach_annual_plot(bb, mb, hb, title, cumulative=False):
@@ -124,24 +126,36 @@ def bleach_annual_plot(bb, mb, hb, title, cumulative=False):
         cell_annual = cumulativesum(cell_annual)
         hughes_norm = hughes_annual
         cell_norm = hughes_annual[-1]*cell_annual/cell_annual[-1]
+        y_text = 'Events'
+        font_size = 14;
     else:
         hughes_norm = np.mean(hughes_annual)*hughes_annual/sum(hughes_annual)
         cell_norm = np.mean(hughes_annual)*cell_annual/sum(cell_annual)
+        y_text = 'Normalized bleaching count'
+        font_size = 16;
+
 
     # Plot global cumulative total by year for both approaches.
     #plt.figure()
     plt.plot(range(1980, 2017), hughes_norm, label='Hughes')
     plt.plot(range(1980, 2017), cell_norm, label='Logan')
-    plt.xlabel('Year')
-    plt.ylabel('Normalized bleaching count')
+    plt.xlabel('Year', fontsize=font_size)
+    plt.ylabel(y_text, fontsize=font_size)
     plt.legend()
-    plt.title(title)
+    plt.title(title, fontsize=font_size)
 
-    #plt.figure()
-    #shiftYear = -1.5
-    #plt.plot(range(1980, 2017), hughes_norm, label='Hughes')
-    #plt.plot(shiftYear+np.array(range(1980, 2017)), cell_norm, label='Logan')
-    #plt.legend()
+    # Shift as a diagnostic, but normally keep this disabled.
+    #if not cumulative:
+    if False:
+        plt.figure(figsize=[9, 6])
+        shiftYear = -1.5
+        plt.plot(range(1980, 2017), hughes_norm, label='Hughes')
+        plt.plot(shiftYear+np.array(range(1980, 2017)), cell_norm, label='Logan')
+        plt.xlabel('Year', fontsize=font_size)
+        plt.ylabel(y_text, fontsize=font_size)
+        plt.legend()
+        plt.title(title, fontsize=font_size)
+
 
 def cumulativesum(data):
     '''Return the seqential sums of values in the argument.
